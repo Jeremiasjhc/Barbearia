@@ -77,6 +77,7 @@ body {
     text-decoration: none;
     transition: all 0.3s ease;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .cta-button:hover {
@@ -88,6 +89,9 @@ body {
     display: none;
     flex-direction: column;
     cursor: pointer;
+    padding: 5px;
+    z-index: 1001;
+    position: relative;
 }
 
 .hamburger span {
@@ -95,7 +99,21 @@ body {
     height: 3px;
     background: var(--accent-gold);
     margin: 3px 0;
-    transition: 0.3s;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border-radius: 2px;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(9px, 9px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+    transform: scale(0);
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(9px, -9px);
 }
 
 /* Hero Section */
@@ -450,6 +468,19 @@ body {
     color: #888;
 }
 
+.footer-bottom>p{
+    padding-bottom: 20px;
+}
+
+#tfim{
+    text-decoration: none;
+    color: var(--secondary-gray);
+}
+
+#tfim:hover{
+    color: var(--accent-gold);
+}
+
 /* Animations */
 @keyframes fadeInUp {
     from {
@@ -467,25 +498,121 @@ body {
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+    .nav-container {
+        padding: 1rem 1.5rem;
+    }
+    
+    .cta-button {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+}
+
 @media (max-width: 768px) {
     .hamburger {
         display: flex;
     }
 
+    .nav-container {
+        padding: 1rem;
+        position: relative;
+    }
+
+    .cta-button {
+        display: none; /* Oculta o botão CTA no mobile */
+    }
+
     .nav-menu {
         position: fixed;
         left: -100%;
-        top: 70px;
+        top: 30px;
         flex-direction: column;
-        background-color: var(--primary-dark);
-        width: 100%;
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-gray) 100%);
+        width: 50%;
         text-align: center;
-        transition: 0.3s;
+        transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         padding: 2rem 0;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(20px);
     }
 
     .nav-menu.active {
         left: 0;
+    }
+
+    .nav-menu li {
+        margin: 1rem 0;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    .nav-menu.active li {
+        opacity: 1;
+        transform: translateY(0);
+        transition: all 0.3s ease;
+    }
+
+    /* Delay para criar efeito cascata */
+    .nav-menu.active li:nth-child(1) { transition-delay: 0.1s; }
+    .nav-menu.active li:nth-child(2) { transition-delay: 0.2s; }
+    .nav-menu.active li:nth-child(3) { transition-delay: 0.3s; }
+    .nav-menu.active li:nth-child(4) { transition-delay: 0.4s; }
+    .nav-menu.active li:nth-child(5) { transition-delay: 0.5s; }
+    .nav-menu.active li:nth-child(6) { transition-delay: 0.6s; }
+
+    .nav-menu a {
+        font-size: 1.1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .nav-menu a:hover {
+        background: rgba(184, 134, 11, 0.1);
+    }
+
+    /* Adiciona botão CTA no menu mobile */
+    .nav-menu::after {
+        content: '';
+        display: block;
+        margin: 2rem auto 0;
+        width: 200px;
+        height: 45px;
+        background: var(--accent-gold);
+        border-radius: 4px;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .nav-menu::before {
+        content: 'Agendar Agora';
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--accent-gold);
+        color: var(--primary-dark);
+        padding: 0.75rem 1.5rem;
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .nav-menu.active::before {
+        opacity: 1;
+        pointer-events: all;
+        transition-delay: 0.7s;
+    }
+
+    .nav-menu.active::before:hover {
+        background: #9A7209;
+        transform: translateX(-50%) translateY(-2px);
     }
 
     .hero h1 {
@@ -515,7 +642,11 @@ body {
 
 @media (max-width: 480px) {
     .nav-container {
-        padding: 1rem;
+        padding: 0.8rem;
+    }
+
+    .logo {
+        font-size: 1.5rem;
     }
 
     .hero h1 {
@@ -528,5 +659,23 @@ body {
 
     .container {
         padding: 0 1rem;
+    }
+
+    .section {
+        padding: 3rem 0;
+    }
+}
+
+@media (max-width: 320px) {
+    .logo {
+        font-size: 1.3rem;
+    }
+    
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .nav-container {
+        padding: 0.5rem;
     }
 }
